@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/ClickEffect.gd" type="Script" id=1]
+
+[node name="ClickEffect" type="Node2D"]
+z_index = 1
+script = ExtResource( 1 )
+effect_color = Color( 0.756863, 0.756863, 0.14902, 1 )
+radius = 7.0
+whitening = 1.0
+effect_lenght = 0.5

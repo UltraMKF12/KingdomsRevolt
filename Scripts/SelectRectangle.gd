@@ -1,5 +1,6 @@
 extends Node2D
 
+export(PackedScene) var effect: PackedScene
 var rectangle_start: Vector2 = Vector2.ZERO
 var rectangle_end: Vector2 = Vector2.ZERO
 var selecting: bool
@@ -29,6 +30,11 @@ func _process(delta):
 	#Unit position command
 	if Input.is_action_just_pressed("mright"):
 		var go_position := get_global_mouse_position()
+		
+		var new_effect = effect.instance()
+		add_child(new_effect)
+		new_effect.make_effect(get_global_mouse_position())
+		
 		move_order(go_position)
 	
 	update()
