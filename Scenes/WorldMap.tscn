@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Sprites/Kingdoms Revol Tilesheett.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/CameraMovement.gd" type="Script" id=2]
@@ -7,9 +7,10 @@
 [ext_resource path="res://Scripts/GroupCounterLabel.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/IncomeCalculator.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/WorldMap.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/Unit.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scripts/TeamText.gd" type="Script" id=8]
 [ext_resource path="res://Scripts/FPSCounter.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/SelectRectangle.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scripts/GroupChanger.gd" type="Script" id=11]
 
 [sub_resource type="DynamicFont" id=2]
 size = 24
@@ -45,6 +46,9 @@ script = ExtResource( 7 )
 script = ExtResource( 6 )
 income = 10
 income_timer = 1.0
+
+[node name="GroupChanger_UnitMaker" type="Node2D" parent="."]
+script = ExtResource( 11 )
 
 [node name="SelectRectangle" parent="." instance=ExtResource( 10 )]
 
@@ -83,7 +87,20 @@ custom_fonts/font = SubResource( 2 )
 text = "999"
 script = ExtResource( 9 )
 
+[node name="Team" type="Label" parent="UI/Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -70.0
+margin_right = 70.0
+margin_bottom = 31.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Dark Blue"
+align = 1
+script = ExtResource( 8 )
+
 [node name="Ground" type="TileMap" parent="."]
+z_index = -1
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
@@ -149,21 +166,3 @@ castle_color = 6
 position = Vector2( 560, 240 )
 
 [node name="Units" type="Node" parent="."]
-
-[node name="Unit" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 150, 342 )
-
-[node name="Unit2" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 156, 416 )
-
-[node name="Unit3" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 144, 384 )
-
-[node name="Unit4" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 182, 400 )
-
-[node name="Unit5" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 176, 368 )
-
-[node name="Unit6" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 208, 374 )

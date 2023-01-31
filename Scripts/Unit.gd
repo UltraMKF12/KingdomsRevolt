@@ -22,9 +22,9 @@ onready var Ranges = $Range
 onready var sprite = $Type
 
 
-func _ready():
-	team = randi() % 2+1
-	set_unit("sword", team)
+#func _ready():
+#	team = randi() % 2+1
+#	set_unit("sword", team)
 #	set_unit("sword", randi() % Autoload.groups.size())
 #	set_unit("sword", 1)
 
@@ -49,7 +49,7 @@ func _physics_process(delta):
 		for i in range(0, get_slide_count()-1):
 			var item = get_slide_collision(i).collider
 			if not item.is_in_group(Autoload.groups[team]):
-				if(can_attack and not item.invincible and not invincible):
+				if(can_attack and not item.invincible):
 					item.hit(attack_power)
 					can_attack = false;
 					var tween := get_tree().create_tween()
@@ -71,6 +71,7 @@ func _physics_process(delta):
 
 
 func set_unit(type: String, group: int):
+	team = group
 	sprite.animation = type
 	sprite.frame = group
 	add_to_group(Autoload.groups[group])
