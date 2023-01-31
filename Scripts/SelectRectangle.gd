@@ -72,14 +72,17 @@ func opacity_color(color: Color, opacity: float) -> Color:
 
 func unselect_units():
 	for i in selected_units:
-		i.unselected()
+		if is_instance_valid(i):
+			i.unselected()
 	selected_units = []
 
 
 func select_units():
 	for i in selected_units:
-		i.selected()
+		if is_instance_valid(i):
+			i.selected()
 
 func move_order(point: Vector2):
 	for i in selected_units:
-		i.move_to_point(point)
+		if is_instance_valid(i):
+			i.move_to_point(point)
