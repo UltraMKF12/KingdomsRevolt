@@ -9,13 +9,14 @@ onready var select_area = $SelectArea
 onready var select_shape = $SelectArea/SelectShape
 
 func _process(delta):
+	#Mouse drag start
 	if Input.is_action_just_pressed("mleft"):
 		rectangle_start =  get_global_mouse_position()
 		selecting = true
 		unselect_units()
 	
-	
-	if	Input.is_action_just_released("mleft"):
+	#Mouse drag release
+	if Input.is_action_just_released("mleft"):
 		selecting = false
 		
 		#Select all player units
@@ -23,13 +24,17 @@ func _process(delta):
 		for item in selection:
 			if item.is_in_group(Autoload.groups[Autoload.player_group]):
 				selected_units.append(item)
-		print(selected_units)
 		select_units()
 	
+	#Unit position command
+	if Input.is_action_just_pressed("mright"):
+		var go_position := get_global_mouse_position()
+		move_order(go_position)
 	
 	update()
 
 
+#Mouse dragging
 func _draw():
 	if(selecting):
 		rectangle_end = get_global_mouse_position()
@@ -68,3 +73,7 @@ func unselect_units():
 func select_units():
 	for i in selected_units:
 		i.selected()
+
+func move_order(point: Vector2):
+	for i in selected_units:
+		i.move_to_point(point)
