@@ -7,7 +7,7 @@ export(float, 0, 5, 0.1) var effect_lenght: float
 
 var effect_position: Vector2
 
-func _process(delta):
+func _process(_delta):
 	update()
 
 func _draw():

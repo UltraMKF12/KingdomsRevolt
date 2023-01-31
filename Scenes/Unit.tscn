@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Sprites/Kingdoms Revol Tilesheett.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Unit.gd" type="Script" id=2]
@@ -150,6 +150,18 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id=33]
 radius = 10.0499
 
+[sub_resource type="CircleShape2D" id=34]
+radius = 60.0
+
+[sub_resource type="CircleShape2D" id=35]
+radius = 74.0
+
+[sub_resource type="CircleShape2D" id=36]
+radius = 212.002
+
+[sub_resource type="CircleShape2D" id=37]
+radius = 158.003
+
 [node name="Unit" type="KinematicBody2D"]
 script = ExtResource( 2 )
 speed = 20
@@ -159,17 +171,45 @@ frames = SubResource( 8 )
 animation = "sword"
 
 [node name="SwordShape" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 30 )
 disabled = true
 
 [node name="BowShape" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 31 )
 disabled = true
 
 [node name="MageShape" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 32 )
 disabled = true
 
 [node name="ClubShape" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 33 )
+disabled = true
+
+[node name="Range" type="Area2D" parent="."]
+modulate = Color( 1, 0, 0, 0.196078 )
+monitorable = false
+
+[node name="SwordRange" type="CollisionShape2D" parent="Range"]
+visible = false
+shape = SubResource( 34 )
+disabled = true
+
+[node name="ClubRange" type="CollisionShape2D" parent="Range"]
+visible = false
+shape = SubResource( 35 )
+disabled = true
+
+[node name="BowRange" type="CollisionShape2D" parent="Range"]
+visible = false
+shape = SubResource( 36 )
+disabled = true
+
+[node name="MageRange" type="CollisionShape2D" parent="Range"]
+visible = false
+shape = SubResource( 37 )
 disabled = true

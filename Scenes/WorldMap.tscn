@@ -151,109 +151,19 @@ position = Vector2( 560, 240 )
 [node name="Units" type="Node" parent="."]
 
 [node name="Unit" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 480, 336 )
+position = Vector2( 150, 342 )
 
 [node name="Unit2" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 448, 320 )
+position = Vector2( 156, 416 )
 
 [node name="Unit3" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 496, 336 )
+position = Vector2( 144, 384 )
 
 [node name="Unit4" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 448, 336 )
+position = Vector2( 182, 400 )
 
 [node name="Unit5" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 512, 320 )
+position = Vector2( 176, 368 )
 
 [node name="Unit6" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 512, 336 )
-
-[node name="Unit7" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 480, 352 )
-
-[node name="Unit8" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 528, 336 )
-
-[node name="Unit9" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 496, 352 )
-
-[node name="Unit17" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 512, 352 )
-
-[node name="Unit18" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 528, 352 )
-
-[node name="Unit10" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 448, 352 )
-
-[node name="Unit11" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 480, 320 )
-
-[node name="Unit12" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 464, 320 )
-
-[node name="Unit13" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 464, 336 )
-
-[node name="Unit14" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 496, 320 )
-
-[node name="Unit15" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 464, 352 )
-
-[node name="Unit16" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 528, 320 )
-
-[node name="Unit37" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 481, 384 )
-
-[node name="Unit38" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 449, 368 )
-
-[node name="Unit39" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 497, 384 )
-
-[node name="Unit40" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 449, 384 )
-
-[node name="Unit41" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 513, 368 )
-
-[node name="Unit42" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 513, 384 )
-
-[node name="Unit43" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 481, 400 )
-
-[node name="Unit44" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 529, 384 )
-
-[node name="Unit45" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 497, 400 )
-
-[node name="Unit46" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 513, 400 )
-
-[node name="Unit47" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 529, 400 )
-
-[node name="Unit48" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 449, 400 )
-
-[node name="Unit49" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 481, 368 )
-
-[node name="Unit50" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 465, 368 )
-
-[node name="Unit51" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 465, 384 )
-
-[node name="Unit52" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 497, 368 )
-
-[node name="Unit53" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 465, 400 )
-
-[node name="Unit54" parent="Units" instance=ExtResource( 8 )]
-position = Vector2( 529, 368 )
+position = Vector2( 208, 374 )

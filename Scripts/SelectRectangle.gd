@@ -9,7 +9,7 @@ var selected_units := []
 onready var select_area = $SelectArea
 onready var select_shape = $SelectArea/SelectShape
 
-func _process(delta):
+func _process(_delta):
 	#Mouse drag start
 	if Input.is_action_just_pressed("mleft"):
 		rectangle_start =  get_global_mouse_position()
