@@ -1,5 +1,6 @@
 tool
 extends Node2D
+class_name Castle
 
 export(int, "None", "Dark Blue", "Red", "Orange", "Black", "Green", "Light Blue") var castle_color: int setget set_color
 

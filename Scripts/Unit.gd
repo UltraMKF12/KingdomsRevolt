@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Unit
 
 
 export(int) var speed: int
