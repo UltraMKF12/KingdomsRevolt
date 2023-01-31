@@ -18,10 +18,12 @@ func hover():
 
 func _on_Area2D_mouse_entered():
 	selected = true
-	hover()
+	if(Autoload.player_group == sprite.frame):
+		hover()
 
 
 func _on_Area2D_mouse_exited():
 	selected = false
-	tween.kill()
-	sprite.modulate = normal_color
+	if(Autoload.player_group == sprite.frame):
+		tween.kill()
+		sprite.modulate = normal_color
