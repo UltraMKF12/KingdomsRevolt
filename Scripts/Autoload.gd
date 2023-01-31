@@ -7,6 +7,10 @@ var gold := [0, 0, 0, 0, 0, 0, 0]
 var player_group: int
 
 
+func _ready():
+	randomize()
+	
+
 func _process(delta):
 	if Input.is_action_just_pressed("fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen

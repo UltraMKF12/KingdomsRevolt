@@ -3,7 +3,7 @@ extends KinematicBody2D
 onready var sprite = $Type
 
 func _ready():
-	set_unit("sword", 1)
+	set_unit("sword", randi() % Autoload.groups.size())
 
 
 func set_unit(type: String, group: int):
@@ -20,3 +20,10 @@ func set_unit(type: String, group: int):
 			$MageShape.disabled = false
 		"club":
 			$ClubShape.disabled = false
+
+
+func selected():
+	sprite.modulate = Color(2, 2, 2, 1)
+
+func unselected():
+	sprite.modulate = Color(1, 1, 1, 1)

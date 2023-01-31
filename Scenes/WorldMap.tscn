@@ -63,6 +63,10 @@ shape = SubResource( 3 )
 margin_right = 960.0
 margin_bottom = 540.0
 mouse_filter = 2
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="Gold Text" type="Label" parent="UI/Control"]
 margin_right = 40.0
@@ -136,4 +140,55 @@ castle_color = 6
 position = Vector2( 560, 240 )
 
 [node name="Unit" parent="." instance=ExtResource( 8 )]
-position = Vector2( 320, 192 )
+position = Vector2( 304, 208 )
+
+[node name="Unit2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 304, 224 )
+
+[node name="Unit3" parent="." instance=ExtResource( 8 )]
+position = Vector2( 320, 208 )
+
+[node name="Unit4" parent="." instance=ExtResource( 8 )]
+position = Vector2( 272, 208 )
+
+[node name="Unit5" parent="." instance=ExtResource( 8 )]
+position = Vector2( 272, 224 )
+
+[node name="Unit6" parent="." instance=ExtResource( 8 )]
+position = Vector2( 336, 208 )
+
+[node name="Unit7" parent="." instance=ExtResource( 8 )]
+position = Vector2( 288, 240 )
+
+[node name="Unit8" parent="." instance=ExtResource( 8 )]
+position = Vector2( 256, 224 )
+
+[node name="Unit9" parent="." instance=ExtResource( 8 )]
+position = Vector2( 304, 240 )
+
+[node name="Unit17" parent="." instance=ExtResource( 8 )]
+position = Vector2( 320, 240 )
+
+[node name="Unit18" parent="." instance=ExtResource( 8 )]
+position = Vector2( 336, 240 )
+
+[node name="Unit10" parent="." instance=ExtResource( 8 )]
+position = Vector2( 256, 240 )
+
+[node name="Unit11" parent="." instance=ExtResource( 8 )]
+position = Vector2( 336, 224 )
+
+[node name="Unit12" parent="." instance=ExtResource( 8 )]
+position = Vector2( 320, 224 )
+
+[node name="Unit13" parent="." instance=ExtResource( 8 )]
+position = Vector2( 288, 208 )
+
+[node name="Unit14" parent="." instance=ExtResource( 8 )]
+position = Vector2( 256, 208 )
+
+[node name="Unit15" parent="." instance=ExtResource( 8 )]
+position = Vector2( 272, 240 )
+
+[node name="Unit16" parent="." instance=ExtResource( 8 )]
+position = Vector2( 289, 224 )

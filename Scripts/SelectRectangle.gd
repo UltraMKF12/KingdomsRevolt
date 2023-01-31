@@ -3,6 +3,7 @@ extends Node2D
 var rectangle_start: Vector2 = Vector2.ZERO
 var rectangle_end: Vector2 = Vector2.ZERO
 var selecting: bool
+var selected_units := []
 
 onready var select_area = $SelectArea
 onready var select_shape = $SelectArea/SelectShape
@@ -11,10 +12,20 @@ func _process(delta):
 	if Input.is_action_just_pressed("mleft"):
 		rectangle_start =  get_global_mouse_position()
 		selecting = true
+		unselect_units()
+	
 	
 	if	Input.is_action_just_released("mleft"):
 		selecting = false
-		print(select_area.get_overlapping_bodies())
+		
+		#Select all player units
+		var selection = select_area.get_overlapping_bodies()
+		for item in selection:
+			if item.is_in_group(Autoload.groups[Autoload.player_group]):
+				selected_units.append(item)
+		print(selected_units)
+		select_units()
+	
 	
 	update()
 
@@ -46,3 +57,14 @@ func generate_rect() -> Rect2:
 func opacity_color(color: Color, opacity: float) -> Color:
 	color.a = opacity
 	return color
+
+
+func unselect_units():
+	for i in selected_units:
+		i.unselected()
+	selected_units = []
+
+
+func select_units():
+	for i in selected_units:
+		i.selected()
