@@ -2,7 +2,7 @@ extends Label
 
 var groups := ["None", "Dark Blue", "Red", "Orange", "Black", "Green", "Light Blue"]
 
-func _process(delta: float) -> void:
+func _process(delta):
 	text = "None: " + str(get_tree().get_nodes_in_group(groups[0]).size()) + "\n" + \
 "Dark Blue: " + str(get_tree().get_nodes_in_group(groups[1]).size()) + "\n" + \
 "Red: " + str(get_tree().get_nodes_in_group(groups[2]).size()) + "\n" + \

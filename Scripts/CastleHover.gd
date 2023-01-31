@@ -16,12 +16,12 @@ func hover():
 	tween.tween_callback(self, "hover")
 
 
-func _on_Area2D_mouse_entered() -> void:
+func _on_Area2D_mouse_entered():
 	selected = true
 	hover()
 
 
-func _on_Area2D_mouse_exited() -> void:
+func _on_Area2D_mouse_exited():
 	selected = false
 	tween.kill()
 	sprite.modulate = normal_color
