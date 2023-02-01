@@ -6,6 +6,8 @@ export(int) var attack_power: int
 export(int) var speed: int
 export(float, 0, 2, 0.1) var attack_timer: float
 export(float, 0, 2, 0.1) var invincible_timer: float
+export(int) var max_move_distance: int
+export(int) var stop_time: int
 
 export(Array, int) var hitbox_size := [6, 7, 7, 8]
 export(Array, int) var range_size := [60, 220, 160, 80]
@@ -29,8 +31,11 @@ onready var sprite = $Type
 func _ready():
 	range_check()
 
+
 func _physics_process(delta):
 	if(moving and not in_combat) or force_move:
+		if(should_unit_stop()):
+			stop()
 		move()
 	
 	elif(in_combat):
@@ -81,9 +86,9 @@ func move():
 	move_and_slide(direction * speed)
 
 
-func stop(stop_timer: int):
+func stop():
 	stop_tween_timer = create_tween()
-	stop_tween_timer.tween_property(self, "moving", false, stop_timer)
+	stop_tween_timer.tween_property(self, "moving", false, stop_time)
 
 
 func abort_stop():
@@ -97,7 +102,18 @@ func move_combat():
 
 func range_check():
 	pass
+
+
+func should_unit_stop():
+	#Only calculate value if stop_tween_timer is not yet started
+	if(stop_tween_timer == null or not stop_tween_timer.is_valid()):
+		var distance = position.distance_to(move_position)
+		if distance <= max_move_distance:
+			return true
+		else:
+			return false
 	
+	return false
 	
 #func hit(power: int):
 #	if(not invincible):

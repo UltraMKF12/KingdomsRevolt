@@ -8,8 +8,6 @@ var selected_units := []
 
 onready var select_area = $SelectArea
 onready var select_shape = $SelectArea/SelectShape
-onready var stop_area = $StopArea
-onready var stop_shape = $StopArea/StopShape
 
 func _process(_delta):
 	#Mouse drag start
@@ -38,9 +36,7 @@ func _process(_delta):
 		new_effect.make_effect(get_global_mouse_position())
 		
 		
-		#The order of these functions matter, to be able to move small distances (inside the stop shape)
 		move_order(go_position)
-		new_stop_area(go_position)
 	
 	update()
 
@@ -90,9 +86,3 @@ func move_order(point: Vector2):
 	for i in selected_units:
 		if is_instance_valid(i):
 			i.move_order(point)
-
-func new_stop_area(new_position: Vector2):
-	stop_shape.set_deferred("disabled", true)
-	yield(get_tree().create_timer(0.1), "timeout")
-	stop_area.position = new_position
-	stop_shape.set_deferred("disabled", false)

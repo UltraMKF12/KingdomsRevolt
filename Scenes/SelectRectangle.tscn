@@ -1,13 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/SelectRectangle.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/ClickEffect.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scripts/StopArea.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=3]
-
-[sub_resource type="CircleShape2D" id=4]
-radius = 80.0
 
 [node name="SelectRectangle" type="Node2D"]
 z_index = 1
@@ -21,18 +17,3 @@ monitorable = false
 
 [node name="SelectShape" type="CollisionShape2D" parent="SelectArea"]
 shape = SubResource( 3 )
-
-[node name="StopArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 63
-monitorable = false
-script = ExtResource( 3 )
-stop_timer = 10
-radius = 80
-
-[node name="StopShape" type="CollisionShape2D" parent="StopArea"]
-shape = SubResource( 4 )
-disabled = true
-
-[connection signal="body_entered" from="StopArea" to="StopArea" method="_on_StopArea_body_entered"]
-[connection signal="body_exited" from="StopArea" to="StopArea" method="_on_StopArea_body_exited"]

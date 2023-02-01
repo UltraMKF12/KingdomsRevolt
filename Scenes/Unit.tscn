@@ -153,6 +153,8 @@ attack_power = 1
 speed = 20
 attack_timer = 1.0
 invincible_timer = 1.0
+max_move_distance = 100
+stop_time = 10
 
 [node name="Type" type="AnimatedSprite" parent="."]
 frames = SubResource( 8 )
