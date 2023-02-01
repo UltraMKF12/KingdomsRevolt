@@ -6,6 +6,6 @@
 z_index = 1
 script = ExtResource( 1 )
 effect_color = Color( 0.756863, 0.756863, 0.14902, 1 )
-radius = 7.0
+radius = 6.0
 whitening = 1.0
 effect_lenght = 0.5

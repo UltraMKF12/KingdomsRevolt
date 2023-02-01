@@ -1,66 +1,40 @@
 extends KinematicBody2D
 class_name Unit
 
-
+export(int) var hp: int
+export(int) var attack_power: int
+export(int) var speed: int
 export(float, 0, 2, 0.1) var attack_timer: float
 export(float, 0, 2, 0.1) var invincible_timer: float
-export(int) var speed: int
 
-var move: bool = false
-var move_position: Vector2
-
-var combat_mode: bool = false
-var enemy_position: Vector2
-var enemy
-
-var attack_power: int = 1
-var hp: int = 3
-var invincible: bool = false
-var can_attack: bool = true
-
-var can_move_check: bool = true
-var can_range_check: bool = true
+export(Array, int) var hitbox_size := [6, 7, 7, 8]
+export(Array, int) var range_size := [60, 220, 160, 80]
+var classes := {"sword":0, "bow":1, "mage":2, "club":3}
 
 var team: int
+var moving := false
+var in_combat := false
+var force_move := false
 
-onready var Ranges = $Range
+var stop_tween_timer: SceneTreeTween = null
+
+var move_position: Vector2
+var enemy: Unit
+
+onready var range_area = $Range
+onready var ranges_shape = $Range/RangeShape
+onready var unit_shape = $UnitShape
 onready var sprite = $Type
 
 func _ready():
-	enemy_in_range_check()
-	move_stop_check()
+	range_check()
 
 func _physics_process(delta):
-	if move and not combat_mode:
-		var direction = position.direction_to(move_position)
-		move_and_slide(direction * speed)
-		
-		if(abs(position.x - move_position.x) < 10 and abs(position.y - move_position.y) < 10):
-			move = false
-
-
-	if combat_mode:
-		#If enemy does not exist, we need to go out of combat mode
-		if not is_instance_valid(enemy):
-			combat_mode = false
-			
-		var direction = position.direction_to(enemy_position)
-		move_and_slide(direction * speed)
-		
-		#Checks every object it interacts with, if it's and enemy attack it
-		#only when none of them is invincible and this unit can attack
-		if(can_attack):
-			for i in range(0, get_slide_count()-1):
-				var item = get_slide_collision(i).collider
-				if is_instance_valid(item):
-					if not item.is_in_group(Autoload.groups[team]):
-						if(not item.invincible):
-							item.hit(attack_power)
-							can_attack = false;
-							var tween := get_tree().create_tween()
-							tween.tween_property(self, "can_attack", true, attack_timer)
-							combat_mode = false
-
+	if(moving and not in_combat) or force_move:
+		move()
+	
+	elif(in_combat):
+		move_combat()
 
 
 func set_unit(type: String, group: int):
@@ -69,81 +43,71 @@ func set_unit(type: String, group: int):
 	sprite.frame = group
 	add_to_group(Autoload.groups[group])
 	
-	match type:
-		"sword":
-			$SwordShape.set_deferred("disabled", false)
-			$Range/SwordRange.set_deferred("disabled", false)
-			$Range/SwordRange.visible = true
-		"bow":
-			$BowShape.set_deferred("disabled", false)
-			$Range/BowRange.set_deferred("disabled", false)
-			$Range/BowRange.visible = true
-		"mage":
-			$MageShape.set_deferred("disabled", false)
-			$Range/MageRange.set_deferred("disabled", false)
-			$Range/MageRange.visible = true
-		"club":
-			$ClubShape.set_deferred("disabled", false)
-			$Range/ClubRange.set_deferred("disabled", false)
-			$Range/ClubRange.visible = true
+	#Set the group the unit is in (So the range check doesn't check for it)
+	set_collision_layer_bit(group-1, true)
+	range_area.set_collision_mask_bit(group-1, false)
+	
+	var new_shape = CircleShape2D.new()
+	new_shape.radius = hitbox_size[classes[type]]
+	unit_shape.shape = new_shape
+	
+	new_shape = CircleShape2D.new()
+	new_shape.radius = range_size[classes[type]]
+	ranges_shape.shape = new_shape
 
 
-func selected():
+func select():
 	sprite.modulate = Color(2, 2, 2, 1)
 
 
-func unselected():
+func unselect():
 	sprite.modulate = Color(1, 1, 1, 1)
 
 
-func move_to_point(point: Vector2):
+func move_order(point: Vector2):
+	#To be able to move close distances
+	if(stop_tween_timer != null && stop_tween_timer.is_valid()):
+		stop_tween_timer.kill()
+		
+	moving = true
 	move_position = point
-	move = true
+	if(in_combat):
+		force_move = true
+		get_tree().create_tween().tween_property(self, "force_move", false, 1)
 
 
-func hit(power: int):
-	if(not invincible):
-		hp -= power
-		if(hp <= 0):
-			queue_free()
-			
-		invincible = true
-		var hit_color := Color(0.35, 0, 0, 1)
-		var tween := get_tree().create_tween()
-		tween.tween_property(self, "modulate", hit_color, invincible_timer/2)
-		tween.tween_property(self, "modulate", Color.white, invincible_timer/2)
-		tween.tween_property(self, "invincible", false, 0)
+func move():
+	var direction = position.direction_to(move_position)
+	move_and_slide(direction * speed)
 
 
-func enemy_in_range_check():
-	#Checks every object in range for an enemy. If found, initiate combat
-	if not combat_mode:
-		var enemy_detected := false
-		var detectable = Ranges.get_overlapping_bodies()
-		for item in detectable:
-			if not item.is_in_group(Autoload.groups[team]):
-				enemy_detected = true
-				enemy = item
-				combat_mode = true
-				enemy_position = enemy.position
+func stop(stop_timer: int):
+	stop_tween_timer = create_tween()
+	stop_tween_timer.tween_property(self, "moving", false, stop_timer)
+
+
+func abort_stop():
+	if(stop_tween_timer.is_valid()):
+		stop_tween_timer.kill()
 	
-	var tween = get_tree().create_tween()
-	tween.tween_interval(1)
-	tween.tween_callback(self, "enemy_in_range_check")
-
-
-func move_stop_check():
-	if move:
-		var count = 0
-		for i in range(0, get_slide_count()-1):
-			var item = get_slide_collision(i).collider
-			if is_instance_valid(item):
-				if(item.move == false):
-					count += 1
-
-		if count >= 1:
-			move = false
 	
-	var tween = get_tree().create_tween()
-	tween.tween_interval(0.5)
-	tween.tween_callback(self, "move_stop_check")
+func move_combat():
+	pass
+
+
+func range_check():
+	pass
+	
+	
+#func hit(power: int):
+#	if(not invincible):
+#		hp -= power
+#		if(hp <= 0):
+#			queue_free()
+#
+#		invincible = true
+#		var hit_color := Color(0.35, 0, 0, 1)
+#		var tween := get_tree().create_tween()
+#		tween.tween_property(self, "modulate", hit_color, invincible_timer/2)
+#		tween.tween_property(self, "modulate", Color.white, invincible_timer/2)
+#		tween.tween_property(self, "invincible", false, 0)
