@@ -17,6 +17,8 @@ var team: int
 var moving := false
 var in_combat := false
 var force_move := false
+var can_attack := true
+var invincible := false
 
 var stop_tween_timer: SceneTreeTween = null
 
@@ -24,8 +26,10 @@ var move_position: Vector2
 var enemy: Unit
 
 onready var range_area = $Range
-onready var ranges_shape = $Range/RangeShape
+onready var range_shape = $Range/RangeShape
 onready var unit_shape = $UnitShape
+onready var attack_area = $AttackBox
+onready var attack_shape = $AttackBox/AttackShape
 onready var sprite = $Type
 
 func _ready():
@@ -51,14 +55,19 @@ func set_unit(type: String, group: int):
 	#Set the group the unit is in (So the range check doesn't check for it)
 	set_collision_layer_bit(group-1, true)
 	range_area.set_collision_mask_bit(group-1, false)
+	attack_area.set_collision_mask_bit(group-1, false)
 	
 	var new_shape = CircleShape2D.new()
 	new_shape.radius = hitbox_size[classes[type]]
 	unit_shape.shape = new_shape
 	
 	new_shape = CircleShape2D.new()
+	new_shape.radius = hitbox_size[classes[type]] + 1
+	attack_shape.shape = new_shape
+	
+	new_shape = CircleShape2D.new()
 	new_shape.radius = range_size[classes[type]]
-	ranges_shape.shape = new_shape
+	range_shape.shape = new_shape
 
 
 func select():
@@ -78,12 +87,13 @@ func move_order(point: Vector2):
 	move_position = point
 	if(in_combat):
 		force_move = true
-		get_tree().create_tween().tween_property(self, "force_move", false, 1)
+		enemy = null
+		get_tree().create_tween().tween_property(self, "force_move", false, 5)
 
 
 func move():
 	var direction = position.direction_to(move_position)
-	move_and_slide(direction * speed)
+	move_and_slide(direction * speed, Vector2.ZERO, false, 2)
 
 
 func stop():
@@ -91,17 +101,32 @@ func stop():
 	stop_tween_timer.tween_property(self, "moving", false, stop_time)
 
 
-func abort_stop():
-	if(stop_tween_timer.is_valid()):
-		stop_tween_timer.kill()
-	
-	
 func move_combat():
-	pass
-
+	if is_instance_valid(enemy):
+		var direction = position.direction_to(enemy.position)
+		move_and_slide(direction * speed, Vector2.ZERO, false, 1)
+		
+		if can_attack:
+			var enemies = attack_area.get_overlapping_bodies()
+			for enemy_guy in enemies:
+				if not enemy_guy.invincible:
+					enemy_guy.hit(attack_power)
+					can_attack = false
+					get_tree().create_tween().tween_property(self, "can_attack", true, attack_timer)
+					break
+	else:
+		in_combat = false
 
 func range_check():
-	pass
+	if(not is_instance_valid(enemy)):
+		var enemies = range_area.get_overlapping_bodies()
+		if enemies.size() > 0:
+			enemy = enemies[0]
+			in_combat = true
+	
+	var tween := get_tree().create_tween()
+	tween.tween_interval(1)
+	tween.tween_callback(self, "range_check")
 
 
 func should_unit_stop():
@@ -115,15 +140,15 @@ func should_unit_stop():
 	
 	return false
 	
-#func hit(power: int):
-#	if(not invincible):
-#		hp -= power
-#		if(hp <= 0):
-#			queue_free()
-#
-#		invincible = true
-#		var hit_color := Color(0.35, 0, 0, 1)
-#		var tween := get_tree().create_tween()
-#		tween.tween_property(self, "modulate", hit_color, invincible_timer/2)
-#		tween.tween_property(self, "modulate", Color.white, invincible_timer/2)
-#		tween.tween_property(self, "invincible", false, 0)
+func hit(power: int):
+	if(not invincible):
+		hp -= power
+		if(hp <= 0):
+			queue_free()
+
+		invincible = true
+		var hit_color := Color(0.35, 0, 0, 1)
+		var tween := get_tree().create_tween()
+		tween.tween_property(self, "modulate", hit_color, invincible_timer/2)
+		tween.tween_property(self, "modulate", Color.white, invincible_timer/2)
+		tween.tween_property(self, "invincible", false, 0)
